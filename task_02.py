@@ -34,11 +34,6 @@ class User:
                   "and one special character like !@#$%^&*()_+")
 
 
-user1 = User("Konstantin", "Password1!@")
-user2 = User("Sergey", "123456789")
-user3 = User("Ivan", "qwerty")
-
-
 class AddingAndAuthorizingUser:
     def __init__(self, size):
         self.size = size
