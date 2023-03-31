@@ -1,13 +1,16 @@
 import hashlib
+from typing import Any
 
 
 class User:
-    def __init__(self, username, password):
+    def __init__(self,
+                 username: str,
+                 password: Any) -> None:
         self.username = username
         self.password = self.valid_password(password)
 
     @staticmethod
-    def valid_password(password):
+    def valid_password(password: Any) -> str:
         correct_length = False
         has_uppercase = False
         has_lowercase = False
@@ -24,7 +27,8 @@ class User:
                 has_digit = True
             if ch in "!@#$%^&*()_+":
                 has_special_symbol = True
-        if correct_length and has_uppercase and has_lowercase and has_digit and has_special_symbol:
+        if correct_length and has_uppercase and has_lowercase \
+                and has_digit and has_special_symbol:
             print("The password is correct")
             return hashlib.sha256(password.encode()).hexdigest()
         else:
@@ -35,21 +39,26 @@ class User:
 
 
 class AddingAndAuthorizingUser:
-    def __init__(self, size):
+    def __init__(self,
+                 size: int) -> None:
         self.size = size
         self.table = [[] for _ in range(size)]
 
-    def create_hash(self, key):
+    def create_hash(self,
+                    key: str | int | float) -> int:
         return hash(key) % self.size
 
-    def add_user(self, user):
+    def add_user(self,
+                 user: Any) -> None:
         index = self.create_hash(user.username)
         for some_user in self.table[index]:
             if some_user.username == user.username:
                 raise ValueError("A user with that name already exists")
         self.table[index].append(user)
 
-    def verify_user(self, username, password):
+    def verify_user(self,
+                    username: str,
+                    password: str) -> bool:
         index = self.create_hash(username)
         for some_user in self.table[index]:
             if some_user.username == username and some_user.password == \
@@ -57,7 +66,7 @@ class AddingAndAuthorizingUser:
                 return True
         return False
 
-    def interactive_login(self):
+    def interactive_login(self) -> None:
         username = input("Username: ")
         password = input("Password: ")
         if self.verify_user(username, password):
